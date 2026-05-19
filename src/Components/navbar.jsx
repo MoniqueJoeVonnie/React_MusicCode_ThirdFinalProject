@@ -1,14 +1,15 @@
 import logo from "../assets/musiccode-logo.png";
 import cartIcon from "../assets/white-cart.png";
 
-function Navbar() {
+function Navbar({ setShowSplash }) {
   return (
     <nav className="nav">
       
       <img
         src={logo}
-        alt="MusicCode Logo"
+        alt="Music Code"
         className="nav-logo"
+        onClick={() => setShowSplash(true)}
       />
 
       <ul className="nav__links">

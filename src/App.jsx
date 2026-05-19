@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import splashVideo from "./assets/music-code-splash.mp4";
 import Navbar from "./Components/navbar";
 import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
@@ -8,6 +9,11 @@ const CLIENT_ID = "1f3613a7";
 const BASE_URL = "https://api.jamendo.com/v3.0";
 
 function App() {
+
+  const [showSplash, setShowSplash] = useState(() => {
+  return sessionStorage.getItem("visited") !== "true";
+});
+
 
   const [sortBy, setSortBy] = useState("");
   const [priceRange, setPriceRange] = useState(200);
@@ -91,14 +97,41 @@ function App() {
 
 
   return (
-    <Routes>
+  <>
+    {showSplash ? (
+      <section className="splash-screen">
+  <video
+    className="splash-video"
+    src={splashVideo}
+    autoPlay
+    muted
+    loop
+    playsInline
+  />
+
+  <div className="splash-overlay">
+    <button
+      className="enter-search"
+      onClick={() => {
+        sessionStorage.setItem("visited", "true");
+        setShowSplash(false);
+      }}
+    >
+      Enter Here ♫
+    </button>
+  </div>
+</section>
+
+
+    ) : (
+      <Routes>
       <Route
         path="/"
         element={
           <div className="app">
             <main className="main-content">
               <header className="hero">
-                <Navbar />
+                <Navbar setShowSplash={setShowSplash} />
 
                 <div className="hero__content">
                   <h1>Discover Your Sound</h1>
@@ -177,7 +210,7 @@ function App() {
     <div className="app">
       <main className="main-content">
         <header className="hero">
-          <Navbar />
+          <Navbar setShowSplash={setShowSplash} />
         </header>
 
         <AlbumDetails albums={albums} />
@@ -201,7 +234,9 @@ function App() {
     </div>
   }
 />
-    </Routes>
+          </Routes>
+    )}
+  </>
   );
 }
 
