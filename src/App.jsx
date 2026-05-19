@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import splashVideo from "./assets/music-code-splash.mp4";
 import Navbar from "./Components/navbar";
 import "./App.css";
@@ -12,7 +12,18 @@ function App() {
 
   const [showSplash, setShowSplash] = useState(() => {
   return sessionStorage.getItem("visited") !== "true";
-});
+  });
+
+  const splashVideoRef = useRef(null);
+
+  const handleSplashEnded = () => {
+    setTimeout(() => {
+      if (splashVideoRef.current) {
+        splashVideoRef.current.currentTime = 0;
+        splashVideoRef.current.play();
+      }
+    }, 60000);
+  };
 
 
   const [sortBy, setSortBy] = useState("");
@@ -101,24 +112,24 @@ function App() {
     {showSplash ? (
       <section className="splash-screen">
   <video
-    className="splash-video"
-    src={splashVideo}
-    autoPlay
-    muted
-    loop
-    playsInline
-  />
+  ref={splashVideoRef}
+  className="splash-video"
+  src={splashVideo}
+  autoPlay
+  muted
+  playsInline
+  onEnded={handleSplashEnded}
+/>
 
   <div className="splash-overlay">
     <button
-      className="enter-search"
+      className="enter-search splash-search-button"
+      aria-label="Enter Music Code"
       onClick={() => {
         sessionStorage.setItem("visited", "true");
         setShowSplash(false);
       }}
-    >
-      Enter Here ♫
-    </button>
+    ></button>
   </div>
 </section>
 
