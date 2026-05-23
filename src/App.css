@@ -660,6 +660,11 @@ body {
     font-size: 42px;
   }
 
+  .enter-search {
+    font-size: 30px;
+    letter-spacing: 2px;
+  }
+
   .search {
     width: 90%;
   }
@@ -767,6 +772,10 @@ body {
     margin-top: 10px;
   }
 
+  .enter-search {
+    font-size: 26px;
+  }
+
   .search input {
     font-size: 18px;
     padding: 16px;
@@ -850,6 +859,11 @@ body {
 
   .hero__content h1 {
     font-size: 30px;
+  }
+
+  .enter-search {
+    font-size: 22px;
+    letter-spacing: 1px;
   }
 
   .search {
@@ -948,6 +962,17 @@ body {
 
   .search {
     border-radius: 20px;
+  }
+
+  .enter-search {
+    font-size: 18px;
+    letter-spacing: 1px;
+
+    transform: translateY(-10px);
+  }
+
+  .enter-search:hover {
+    transform: translateY(-14px) scale(1.05);
   }
 
   .search input {
