@@ -12,29 +12,114 @@ function App() {
 
   const [showSplash, setShowSplash] = useState(true);
   const [showEnterButton, setShowEnterButton] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   const splashVideoRef = useRef(null);
+  const splashTimerRef = useRef(null);
 
   const handleSplashEnded = () => {
-
-  // Show neon button at end
   setShowEnterButton(true);
 
-  // Wait 1 minute
-  setTimeout(() => {
-
-    // Hide button again
+  splashTimerRef.current = setTimeout(() => {
     setShowEnterButton(false);
 
-    // Restart video
     if (splashVideoRef.current) {
       splashVideoRef.current.currentTime = 0;
       splashVideoRef.current.play();
     }
-
   }, 60000);
 };
 
+  useEffect(() => {
+    if (showSplash) {
+      setShowEnterButton(false);
+
+      if (splashTimerRef.current) {
+        clearTimeout(splashTimerRef.current);
+      }
+
+      setTimeout(() => {
+        if (splashVideoRef.current) {
+          splashVideoRef.current.currentTime = 0;
+          splashVideoRef.current.play();
+        }
+      }, 0);
+    }
+
+    const getSplashVideoStyle = () => {
+  if (screenWidth <= 480) {
+    return {
+      width: "100vw",
+      height: "100dvh",
+      objectFit: "contain",
+      objectPosition: "center",
+      transform: "scale(0.88)",
+      backgroundColor: "black",
+      display: "block",
+    };
+  }
+
+  if (screenWidth <= 550) {
+    return {
+      width: "100vw",
+      height: "100dvh",
+      objectFit: "contain",
+      objectPosition: "center",
+      transform: "scale(0.92)",
+      backgroundColor: "black",
+      display: "block",
+    };
+  }
+
+  if (screenWidth <= 640) {
+    return {
+      width: "100vw",
+      height: "100dvh",
+      objectFit: "contain",
+      objectPosition: "center",
+      transform: "scale(0.96)",
+      backgroundColor: "black",
+      display: "block",
+    };
+  }
+
+  if (screenWidth <= 768) {
+    return {
+      width: "100vw",
+      height: "100dvh",
+      objectFit: "contain",
+      objectPosition: "center",
+      backgroundColor: "black",
+      display: "block",
+    };
+  }
+
+  return {
+    width: "100vw",
+    height: "100dvh",
+    objectPosition: "center",
+    display: "block",
+  };
+};
+
+    return () => {
+      if (splashTimerRef.current) {
+        clearTimeout(splashTimerRef.current);
+      }
+    };
+  }, [showSplash]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const [sortBy, setSortBy] = useState("");
   const [priceRange, setPriceRange] = useState(200);
@@ -120,16 +205,24 @@ function App() {
   return (
   <>
     {showSplash ? (
-      <section className="splash-screen">
+      <section
+  className="splash-screen"
+  style={{
+  width: "100%",
+  height: "100%",
+  display: "block",
+}}
+>
   <video
-  ref={splashVideoRef}
-  className="splash-video"
-  src={splashVideo}
-  autoPlay
-  muted
-  playsInline
-  onEnded={handleSplashEnded}
-/>
+    ref={splashVideoRef}
+    className="splash-video"
+    src={splashVideo}
+    autoPlay
+    muted
+    playsInline
+    preload="auto"
+    onEnded={handleSplashEnded}
+  />
 
   <div className="splash-overlay">
     {showEnterButton && (

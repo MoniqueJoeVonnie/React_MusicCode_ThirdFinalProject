@@ -20,106 +20,124 @@ body,
   flex: 1;
 }
 
-/* Splash screen styles */
+/* =========================================
+   SPLASH SCREEN
+========================================= */
 
 .splash-screen {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100dvh;
   z-index: 9999;
   overflow: hidden;
   background: #000;
 }
 
 .splash-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100vw;
+  height: 100dvh;
+
+  display: block;
+
+  object-fit: contain;
+  object-position: center center;
+
+  background: black;
 }
 
 .splash-overlay {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
-  background: rgba(0, 0, 0, 0.25);
-}
 
-.splash-overlay h1 {
-  color: white;
-  font-size: 64px;
-  text-shadow: 0 0 20px red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .enter-search {
-  width: auto;
-  height: auto;
-  padding: 18px 34px;
-  transform: translateY(-15px);
-
   border: none;
   background: transparent;
-  color: #f5ff00;
+  cursor: pointer;
 
   display: flex;
   align-items: center;
-  gap: 14px;
+  justify-content: center;
 
-  cursor: pointer;
+  color: #f5ff00;
 
-  font-size: 42px;
+  font-size: clamp(18px, 4vw, 42px);
   font-weight: 900;
+
+  letter-spacing: clamp(1px, 0.25vw, 3px);
+
   text-transform: uppercase;
-  letter-spacing: 2px;
+  text-align: center;
+
+  white-space: nowrap;
 
   text-shadow:
-    0 0 6px #f5ff00,
-    0 0 14px #f5ff00,
-    0 0 28px #f5ff00;
+    0 0 4px #f5ff00,
+    0 0 10px #f5ff00,
+    0 0 22px #f5ff00,
+    0 0 40px #f5ff00;
 
-  animation: fadeInGlow 1.2s ease, handFloat 1.4s ease-in-out infinite;
-  transition: all 0.3s ease;
+  animation:
+    fadeInGlow 1.2s ease,
+    floatingGlow 2s ease-in-out infinite;
+
+  transition:
+    transform 0.25s ease,
+    text-shadow 0.25s ease;
+
+  padding: 8px 16px;
 }
 
-.enter-search:hover {
-  transform: translateY(-15px) scale(1.08);
+  .enter-search:hover {
+    transform: scale(1.04);
 
-  text-shadow:
-    0 0 8px #f5ff00,
-    0 0 18px #f5ff00,
-    0 0 38px #f5ff00,
-    0 0 60px #f5ff00;
-}
+    text-shadow:
+      0 0 6px #f5ff00,
+      0 0 14px #f5ff00,
+      0 0 28px #f5ff00,
+      0 0 48px #f5ff00;
+  }
 
-.explore-hand {
-  font-size: 54px;
-  display: inline-block;
-  animation: handPulse 1s ease-in-out infinite;
-}
+  .explore-text {
+    display: block;
+    line-height: 1.1;
+  }
 
-.explore-text {
-  font-size: 42px;
-}
 
-@keyframes handFloat {
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes floatingGlow {
+
   0%, 100% {
-    transform: translateY(-15px);
+    transform: translateY(0);
   }
 
   50% {
-    transform: translateY(-25px);
+    transform: translateY(-12px);
   }
 }
 
-@keyframes handPulse {
-  0%, 100% {
+@keyframes fadeInGlow {
+
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
     transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.2);
   }
 }
 
@@ -608,6 +626,10 @@ body {
 
 @media (max-width: 768px) {
 
+  .splash-overlay {
+    padding: 20px;
+  }
+
   .hero {
     padding-bottom: 40px;
   }
@@ -665,6 +687,10 @@ body {
     letter-spacing: 2px;
   }
 
+  .enter-search:hover {
+    transform: scale(1.03);
+  }
+
   .search {
     width: 90%;
   }
@@ -714,6 +740,10 @@ body {
 ========================= */
 
 @media (max-width: 640px) {
+
+  .splash-video {
+    object-position: center center;
+  }
 
   .hero {
     padding-bottom: 40px;
@@ -773,7 +803,16 @@ body {
   }
 
   .enter-search {
-    font-size: 26px;
+    font-size: 25px;
+    letter-spacing: 1.5px;
+
+    white-space: normal;
+
+    max-width: 85%;
+  }
+
+  .enter-search:hover {
+    transform: scale(1.02);
   }
 
   .search input {
@@ -827,6 +866,10 @@ body {
 
 @media (max-width: 550px) {
 
+  .splash-overlay {
+    padding: 18px;
+  }
+
   .hero {
     padding-bottom: 50px;
   }
@@ -862,8 +905,16 @@ body {
   }
 
   .enter-search {
-    font-size: 22px;
+    font-size: 21px;
     letter-spacing: 1px;
+
+    max-width: 90%;
+
+    padding: 6px 12px;
+  }
+
+  .enter-search:hover {
+    transform: scale(1.01);
   }
 
   .search {
@@ -923,6 +974,14 @@ body {
 
 @media (max-width: 480px) {
 
+  .splash-overlay {
+    padding: 14px;
+  }
+
+  .splash-video {
+    object-position: center;
+  }
+
   .hero {
   padding-bottom: 50px;
 }
@@ -964,15 +1023,22 @@ body {
     border-radius: 20px;
   }
 
-  .enter-search {
-    font-size: 18px;
-    letter-spacing: 1px;
+ .enter-search {
+    font-size: 17px;
+    letter-spacing: 0.5px;
 
-    transform: translateY(-10px);
+    max-width: 92%;
+
+    padding: 4px 10px;
+
+    text-shadow:
+      0 0 3px #f5ff00,
+      0 0 8px #f5ff00,
+      0 0 18px #f5ff00;
   }
 
   .enter-search:hover {
-    transform: translateY(-14px) scale(1.05);
+    transform: none;
   }
 
   .search input {
