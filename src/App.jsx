@@ -10,20 +10,30 @@ const BASE_URL = "https://api.jamendo.com/v3.0";
 
 function App() {
 
-  const [showSplash, setShowSplash] = useState(() => {
-  return sessionStorage.getItem("visited") !== "true";
-  });
+  const [showSplash, setShowSplash] = useState(true);
+  const [showEnterButton, setShowEnterButton] = useState(false);
 
   const splashVideoRef = useRef(null);
 
   const handleSplashEnded = () => {
-    setTimeout(() => {
-      if (splashVideoRef.current) {
-        splashVideoRef.current.currentTime = 0;
-        splashVideoRef.current.play();
-      }
-    }, 60000);
-  };
+
+  // Show neon button at end
+  setShowEnterButton(true);
+
+  // Wait 1 minute
+  setTimeout(() => {
+
+    // Hide button again
+    setShowEnterButton(false);
+
+    // Restart video
+    if (splashVideoRef.current) {
+      splashVideoRef.current.currentTime = 0;
+      splashVideoRef.current.play();
+    }
+
+  }, 60000);
+};
 
 
   const [sortBy, setSortBy] = useState("");
@@ -122,14 +132,16 @@ function App() {
 />
 
   <div className="splash-overlay">
-    <button
-      className="enter-search splash-search-button"
-      aria-label="Enter Music Code"
-      onClick={() => {
-        sessionStorage.setItem("visited", "true");
-        setShowSplash(false);
-      }}
-    ></button>
+    {showEnterButton && (
+      <button
+  className="enter-search"
+    onClick={() => {
+      setShowSplash(false);
+    }}
+  >
+    <span className="explore-text">Search Now</span>
+  </button>
+    )}
   </div>
 </section>
 

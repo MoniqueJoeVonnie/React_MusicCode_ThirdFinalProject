@@ -54,36 +54,73 @@ body,
 }
 
 .enter-search {
-  width: min(2000px, 92%);
-  height: 300px;
+  width: auto;
+  height: auto;
+  padding: 18px 34px;
   transform: translateY(-15px);
 
-  border-radius: 999px;
-  border: 4px solid #f5ff00;
-
+  border: none;
   background: transparent;
-  color: transparent;
+  color: #f5ff00;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
 
   cursor: pointer;
 
-  box-shadow:
-    0 0 8px #f5ff00,
-    0 0 18px #f5ff00,
-    inset 0 0 12px rgba(245, 255, 0, 0.35);
+  font-size: 42px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 
+  text-shadow:
+    0 0 6px #f5ff00,
+    0 0 14px #f5ff00,
+    0 0 28px #f5ff00;
+
+  animation: fadeInGlow 1.2s ease, handFloat 1.4s ease-in-out infinite;
   transition: all 0.3s ease;
 }
 
 .enter-search:hover {
-  border-color: #f5ff00;
+  transform: translateY(-15px) scale(1.08);
 
-  box-shadow:
-    0 0 12px #f5ff00,
-    0 0 28px #f5ff00,
-    0 0 45px #f5ff00,
-    inset 0 0 18px rgba(245, 255, 0, 0.55);
+  text-shadow:
+    0 0 8px #f5ff00,
+    0 0 18px #f5ff00,
+    0 0 38px #f5ff00,
+    0 0 60px #f5ff00;
+}
 
-  transform: scale(1.03);
+.explore-hand {
+  font-size: 54px;
+  display: inline-block;
+  animation: handPulse 1s ease-in-out infinite;
+}
+
+.explore-text {
+  font-size: 42px;
+}
+
+@keyframes handFloat {
+  0%, 100% {
+    transform: translateY(-15px);
+  }
+
+  50% {
+    transform: translateY(-25px);
+  }
+}
+
+@keyframes handPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
 }
 
 
@@ -947,4 +984,221 @@ body {
     font-size: 16px;
   }
 
+}
+
+/* =========================================
+   GLOBAL RESPONSIVE IMPROVEMENTS
+========================================= */
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.album-card,
+.recommended-card {
+  width: 100%;
+}
+
+.album-card h3,
+.recommended-card h3 {
+  word-break: break-word;
+}
+
+.search input::placeholder {
+  font-size: inherit;
+}
+
+
+/* =========================================
+   768px IMPROVEMENTS
+========================================= */
+
+@media (max-width: 768px) {
+
+  .controls {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .price-filter {
+    align-items: center;
+  }
+
+  .album-details {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .album-details-info {
+    max-width: 100%;
+  }
+
+  .footer__links {
+    flex-wrap: wrap;
+  }
+}
+
+
+/* =========================================
+   640px IMPROVEMENTS
+========================================= */
+
+@media (max-width: 640px) {
+
+  .hero {
+    min-height: auto;
+  }
+
+  .hero__content {
+    padding: 0 20px;
+  }
+
+  .hero__content h1 {
+    line-height: 1.2;
+  }
+
+  .search {
+    margin-top: 20px;
+  }
+
+  .controls {
+    width: 100%;
+  }
+
+  .sort-select {
+    width: 100%;
+  }
+
+  .price-filter {
+    width: 100%;
+  }
+
+  .price-filter label {
+    font-size: 18px;
+  }
+
+  .album-grid {
+    grid-template-columns:
+      repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .footer {
+    padding: 40px 20px;
+  }
+}
+
+
+/* =========================================
+   550px IMPROVEMENTS
+========================================= */
+
+@media (max-width: 550px) {
+
+  .hero__content h1 {
+    font-size: 28px;
+  }
+
+  .search {
+    flex-direction: row;
+    min-height: 58px;
+  }
+
+  .search input {
+    width: 100%;
+  }
+
+  .controls {
+    gap: 24px;
+  }
+
+  .album-grid {
+    gap: 30px 18px;
+  }
+
+  .album-card h3 {
+    font-size: 17px;
+  }
+
+  .album-card p {
+    font-size: 15px;
+  }
+
+  .recommended-section h2 {
+    text-align: center;
+  }
+
+  .footer__links {
+    gap: 16px;
+  }
+}
+
+
+/* =========================================
+   480px IMPROVEMENTS
+========================================= */
+
+@media (max-width: 480px) {
+
+  .nav {
+    padding: 12px;
+  }
+
+  .nav__links {
+    justify-content: center;
+    row-gap: 10px;
+  }
+
+  .hero__content {
+    padding: 0 14px;
+  }
+
+  .hero__content h1 {
+    font-size: 24px;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .search input {
+    font-size: 14px;
+  }
+
+  .controls {
+    padding: 28px 14px;
+  }
+
+  .album-grid {
+    padding: 20px 14px 60px;
+  }
+
+  .album-details-page {
+    padding: 30px 14px;
+  }
+
+  .album-details img {
+    width: 100%;
+  }
+
+  .album-details-info h1 {
+    font-size: 24px;
+  }
+
+  .recommended-section h2 {
+    font-size: 28px;
+  }
+
+  .footer {
+    min-height: 220px;
+    padding: 30px 14px;
+  }
+
+  .footer__links {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
 }
