@@ -1,5 +1,5 @@
 import logo from "../assets/musiccode-logo.png";
-import cartIcon from "../assets/white-cart.png";
+import cartIcon from "../assets/White-cart.png";
 
 function Navbar({ setShowSplash }) {
   return (
