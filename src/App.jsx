@@ -145,22 +145,46 @@ function App() {
       rating: Math.floor(Math.random() * 5) + 1,
 
       keywords: [
-        album.name,
-        album.artist_name,
-        "hip hop",
-        "rap",
-        "r&b",
-        "pop",
-        "jazz",
-        "lofi",
-        "chill",
-        "workout",
-        "party",
-        "focus",
-        "coding",
-        "relaxing",
-        "instrumental",
-      ],
+  album.name,
+  album.artist_name,
+
+  "rock",
+  "pop",
+  "electronic",
+  "dance",
+  "house",
+  "techno",
+  "ambient",
+  "acoustic",
+  "folk",
+  "jazz",
+  "blues",
+  "classical",
+  "instrumental",
+  "hiphop",
+  "rap",
+  "reggae",
+  "metal",
+  "punk",
+  "latin",
+  "soul",
+  "funk",
+
+  "piano",
+  "guitar",
+  "drums",
+  "bass",
+  "violin",
+  "synth",
+
+  "happy",
+  "sad",
+  "relaxing",
+  "energetic",
+  "chill",
+  "cinematic",
+  "romantic",
+],
     }));
 
     setAlbums(formattedAlbums);
@@ -174,8 +198,11 @@ const handleSearch = async (e) => {
   e.preventDefault();
 
   try {
+
+    const encodedSearch = encodeURIComponent(searchTerm);
+
     const response = await fetch(
-      `${BASE_URL}/albums/?client_id=${CLIENT_ID}&format=json&limit=30&imagesize=300&search=${searchTerm}`
+      `${BASE_URL}/albums/?client_id=${CLIENT_ID}&format=json&limit=30&imagesize=300&search=${encodedSearch}`
     );
 
     const data = await response.json();
@@ -189,22 +216,46 @@ const handleSearch = async (e) => {
   rating: Math.floor(Math.random() * 5) + 1,
 
   keywords: [
-    album.name,
-    album.artist_name,
-    "hip hop",
-    "rap",
-    "r&b",
-    "pop",
-    "jazz",
-    "lofi",
-    "chill",
-    "workout",
-    "party",
-    "focus",
-    "coding",
-    "relaxing",
-    "instrumental",
-  ],
+  album.name,
+  album.artist_name,
+
+  "rock",
+  "pop",
+  "electronic",
+  "dance",
+  "house",
+  "techno",
+  "ambient",
+  "acoustic",
+  "folk",
+  "jazz",
+  "blues",
+  "classical",
+  "instrumental",
+  "hiphop",
+  "rap",
+  "reggae",
+  "metal",
+  "punk",
+  "latin",
+  "soul",
+  "funk",
+
+  "piano",
+  "guitar",
+  "drums",
+  "bass",
+  "violin",
+  "synth",
+
+  "happy",
+  "sad",
+  "relaxing",
+  "energetic",
+  "chill",
+  "cinematic",
+  "romantic",
+],
 }));
 
     setAlbums(mappedAlbums);
@@ -228,7 +279,7 @@ const handleSearch = async (e) => {
     .toLowerCase()
     .includes(search);
   })
-  
+
   .sort((a, b) => {
     if (sortBy === "LOW_TO_HIGH") {
       return a.salePrice - b.salePrice;
