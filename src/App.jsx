@@ -181,13 +181,31 @@ const handleSearch = async (e) => {
     const data = await response.json();
 
     const mappedAlbums = data.results.map((album) => ({
-      id: album.id,
-      title: album.name,
-      artist: album.artist_name,
-      image: album.image,
-      salePrice: Math.floor(Math.random() * 70) + 10,
-      rating: Math.floor(Math.random() * 5) + 1,
-    }));
+  id: album.id,
+  title: album.name,
+  artist: album.artist_name,
+  image: album.image,
+  salePrice: Math.floor(Math.random() * 70) + 10,
+  rating: Math.floor(Math.random() * 5) + 1,
+
+  keywords: [
+    album.name,
+    album.artist_name,
+    "hip hop",
+    "rap",
+    "r&b",
+    "pop",
+    "jazz",
+    "lofi",
+    "chill",
+    "workout",
+    "party",
+    "focus",
+    "coding",
+    "relaxing",
+    "instrumental",
+  ],
+}));
 
     setAlbums(mappedAlbums);
   } catch (error) {
@@ -205,11 +223,12 @@ const handleSearch = async (e) => {
       return true;
     }
 
-    return album.keywords
-      .join(" ")
-      .toLowerCase()
-      .includes(search);
+    return (album.keywords || [])
+    .join(" ")
+    .toLowerCase()
+    .includes(search);
   })
+  
   .sort((a, b) => {
     if (sortBy === "LOW_TO_HIGH") {
       return a.salePrice - b.salePrice;
