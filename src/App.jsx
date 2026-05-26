@@ -170,6 +170,31 @@ function App() {
 
 }, []);
 
+const handleSearch = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch(
+      `${BASE_URL}/albums/?client_id=${CLIENT_ID}&format=json&limit=30&imagesize=300&search=${searchTerm}`
+    );
+
+    const data = await response.json();
+
+    const mappedAlbums = data.results.map((album) => ({
+      id: album.id,
+      title: album.name,
+      artist: album.artist_name,
+      image: album.image,
+      salePrice: Math.floor(Math.random() * 70) + 10,
+      rating: Math.floor(Math.random() * 5) + 1,
+    }));
+
+    setAlbums(mappedAlbums);
+  } catch (error) {
+    console.error("Search API error:", error);
+  }
+};
+
 
   const sortedAlbums = [...albums]
   .filter((album) => album.salePrice <= priceRange)
@@ -252,15 +277,15 @@ function App() {
                 <div className="hero__content">
                   <h1>Discover Your Sound</h1>
 
-                  <div className="search">
+                   <form className="search" onSubmit={handleSearch}>
                     <input
                       placeholder="Search by genre, artist, album, mood, or activity..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
 
-                    <button>♫</button>
-                  </div>
+                    <button type="submit">♫</button>
+                  </form>
                 </div>
               </header>
 
