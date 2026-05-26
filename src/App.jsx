@@ -31,83 +31,37 @@ function App() {
 };
 
   useEffect(() => {
-    if (showSplash) {
-      setShowEnterButton(false);
+  if (!showSplash) return;
 
-      if (splashTimerRef.current) {
-        clearTimeout(splashTimerRef.current);
-      }
+  setShowEnterButton(false);
 
-      setTimeout(() => {
-        if (splashVideoRef.current) {
-          splashVideoRef.current.currentTime = 0;
-          splashVideoRef.current.play();
-        }
-      }, 0);
+  if (splashTimerRef.current) {
+    clearTimeout(splashTimerRef.current);
+  }
+
+  const playSplashVideo = async () => {
+    if (!splashVideoRef.current) return;
+
+    try {
+      splashVideoRef.current.muted = true;
+      splashVideoRef.current.defaultMuted = true;
+      splashVideoRef.current.playsInline = true;
+      splashVideoRef.current.currentTime = 0;
+
+      await splashVideoRef.current.play();
+    } catch (error) {
+      console.log("Autoplay was blocked:", error);
     }
-
-    const getSplashVideoStyle = () => {
-  if (screenWidth <= 480) {
-    return {
-      width: "100vw",
-      height: "100dvh",
-      objectFit: "contain",
-      objectPosition: "center",
-      transform: "scale(0.88)",
-      backgroundColor: "black",
-      display: "block",
-    };
-  }
-
-  if (screenWidth <= 550) {
-    return {
-      width: "100vw",
-      height: "100dvh",
-      objectFit: "contain",
-      objectPosition: "center",
-      transform: "scale(0.92)",
-      backgroundColor: "black",
-      display: "block",
-    };
-  }
-
-  if (screenWidth <= 640) {
-    return {
-      width: "100vw",
-      height: "100dvh",
-      objectFit: "contain",
-      objectPosition: "center",
-      transform: "scale(0.96)",
-      backgroundColor: "black",
-      display: "block",
-    };
-  }
-
-  if (screenWidth <= 768) {
-    return {
-      width: "100vw",
-      height: "100dvh",
-      objectFit: "contain",
-      objectPosition: "center",
-      backgroundColor: "black",
-      display: "block",
-    };
-  }
-
-  return {
-    width: "100vw",
-    height: "100dvh",
-    objectPosition: "center",
-    display: "block",
   };
-};
 
-    return () => {
-      if (splashTimerRef.current) {
-        clearTimeout(splashTimerRef.current);
-      }
-    };
-  }, [showSplash]);
+  playSplashVideo();
+
+  return () => {
+    if (splashTimerRef.current) {
+      clearTimeout(splashTimerRef.current);
+    }
+  };
+}, [showSplash]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -309,15 +263,23 @@ const handleSearch = async (e) => {
 }}
 >
   <video
-    ref={splashVideoRef}
-    className="splash-video"
-    src={splashVideo}
-    autoPlay
-    muted
-    playsInline
-    preload="auto"
-    onEnded={handleSplashEnded}
-  />
+  ref={splashVideoRef}
+  className="splash-video"
+  src={splashVideo}
+  autoPlay
+  muted
+  playsInline
+  preload="auto"
+  onCanPlay={() => {
+    if (splashVideoRef.current) {
+      splashVideoRef.current.muted = true;
+      splashVideoRef.current.play().catch((error) => {
+        console.log("Autoplay blocked:", error);
+      });
+    }
+  }}
+  onEnded={handleSplashEnded}
+/>
 
   <div className="splash-overlay">
     {showEnterButton && (
