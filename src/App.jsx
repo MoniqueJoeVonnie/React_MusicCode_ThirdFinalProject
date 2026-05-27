@@ -10,7 +10,7 @@ const BASE_URL = "https://api.jamendo.com/v3.0";
 
 function App() {
 
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(false);
   const [showEnterButton, setShowEnterButton] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
