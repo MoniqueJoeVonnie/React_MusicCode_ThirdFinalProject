@@ -1,11 +1,10 @@
 import logo from "../assets/musiccode-logo.png";
 import cartIcon from "../assets/White-cart.png";
 
-function Navbar({ setShowSplash }) {
+function Navbar() {
   return (
     <nav className="nav">
-      
-            <img
+      <img
         src={logo}
         alt="Music Code"
         className="nav-logo"
@@ -15,17 +14,11 @@ function Navbar({ setShowSplash }) {
         <li><a href="#about">About</a></li>
         <li><a href="#services">Services</a></li>
         <li>
-          <a className="contact-btn" href="#contact">
-            Contact
-          </a>
+          <a className="contact-btn" href="#contact">Contact</a>
         </li>
         <li>
           <a className="cart-btn" href="#cart">
-            <img
-              src={cartIcon}
-              alt="Shopping Cart"
-              className="cart-icon"
-            />
+            <img src={cartIcon} alt="Shopping Cart" className="cart-icon" />
           </a>
         </li>
       </ul>

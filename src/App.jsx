@@ -304,7 +304,7 @@ const handleSearch = async (e) => {
           <div className="app">
             <main className="main-content">
               <header className="hero">
-                <Navbar setShowSplash={setShowSplash} />
+                <Navbar />
 
                 <div className="hero__content">
                   <h1>Discover Your Sound</h1>
@@ -383,7 +383,7 @@ const handleSearch = async (e) => {
     <div className="app">
       <main className="main-content">
         <header className="hero">
-          <Navbar setShowSplash={setShowSplash} />
+          <Navbar />
         </header>
 
         <AlbumDetails albums={albums} />
