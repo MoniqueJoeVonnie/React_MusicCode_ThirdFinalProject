@@ -110,6 +110,12 @@ function App() {
   album.name,
   album.artist_name,
 
+  "r&b",
+  "rnb",
+  "workout",
+  "party",
+  "focus",
+  "coding",
   "rock",
   "pop",
   "electronic",
@@ -123,7 +129,7 @@ function App() {
   "blues",
   "classical",
   "instrumental",
-  "hiphop",
+  "hip hop",
   "rap",
   "reggae",
   "metal",
@@ -156,74 +162,8 @@ function App() {
 
 }, []);
 
-const handleSearch = async (e) => {
+const handleSearch = (e) => {
   e.preventDefault();
-
-  try {
-
-    const encodedSearch = encodeURIComponent(searchTerm);
-
-    const response = await fetch(
-      `${BASE_URL}/albums/?client_id=${CLIENT_ID}&format=json&limit=30&imagesize=300&search=${encodedSearch}`
-    );
-
-    const data = await response.json();
-
-    const mappedAlbums = data.results.map((album) => ({
-  id: album.id,
-  title: album.name,
-  artist: album.artist_name,
-  image: album.image,
-  salePrice: Math.floor(Math.random() * 70) + 10,
-  rating: Math.floor(Math.random() * 5) + 1,
-
-  keywords: [
-  album.name,
-  album.artist_name,
-
-  "rock",
-  "pop",
-  "electronic",
-  "dance",
-  "house",
-  "techno",
-  "ambient",
-  "acoustic",
-  "folk",
-  "jazz",
-  "blues",
-  "classical",
-  "instrumental",
-  "hiphop",
-  "rap",
-  "reggae",
-  "metal",
-  "punk",
-  "latin",
-  "soul",
-  "funk",
-
-  "piano",
-  "guitar",
-  "drums",
-  "bass",
-  "violin",
-  "synth",
-
-  "happy",
-  "sad",
-  "relaxing",
-  "energetic",
-  "chill",
-  "cinematic",
-  "romantic",
-],
-}));
-
-    setAlbums(mappedAlbums);
-  } catch (error) {
-    console.error("Search API error:", error);
-  }
 };
 
 
