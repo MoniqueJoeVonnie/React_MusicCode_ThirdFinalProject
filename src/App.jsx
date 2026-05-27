@@ -93,7 +93,7 @@ function App() {
   async function fetchAlbums() {
 
     const response = await fetch(
-      `${BASE_URL}/albums/?client_id=${CLIENT_ID}&format=json&limit=20&imagesize=300`
+      `${BASE_URL}/albums/?client_id=${CLIENT_ID}&format=json&limit=100&imagesize=300`
     );
 
     const data = await response.json();
@@ -162,25 +162,37 @@ function App() {
 
 }, []);
 
-const handleSearch = (e) => {
+const handleSearch = async (e) => {
   e.preventDefault();
+
+  try {
+    const encodedSearch = encodeURIComponent(searchTerm.trim());
+
+    const response = await fetch(
+      `${BASE_URL}/albums/?client_id=${CLIENT_ID}&format=json&limit=100&imagesize=300&namesearch=${encodedSearch}`
+    );
+
+    const data = await response.json();
+
+    const mappedAlbums = data.results.map((album) => ({
+      id: album.id,
+      title: album.name,
+      artist: album.artist_name,
+      image: album.image,
+      salePrice: Math.floor(Math.random() * 70) + 10,
+      rating: Math.floor(Math.random() * 5) + 1,
+    }));
+
+    setAlbums(mappedAlbums);
+  } catch (error) {
+    console.error("Search API error:", error);
+  }
 };
 
 
   const sortedAlbums = [...albums]
   .filter((album) => album.salePrice <= priceRange)
-  .filter((album) => {
-    const search = searchTerm.toLowerCase().trim();
-
-    if (search === "") {
-      return true;
-    }
-
-    return (album.keywords || [])
-    .join(" ")
-    .toLowerCase()
-    .includes(search);
-  })
+  .filter(() => true)
 
   .sort((a, b) => {
     if (sortBy === "LOW_TO_HIGH") {
