@@ -20,12 +20,20 @@ function App() {
   const handleSplashEnded = () => {
   setShowEnterButton(true);
 
-  splashTimerRef.current = setTimeout(() => {
+  splashTimerRef.current = setTimeout(async () => {
     setShowEnterButton(false);
 
-    if (splashVideoRef.current) {
-      splashVideoRef.current.currentTime = 0;
-      splashVideoRef.current.play();
+    const video = splashVideoRef.current;
+
+    if (video) {
+      try {
+        video.pause();
+        video.currentTime = 0;
+
+        await video.play();
+      } catch (err) {
+        console.log("Replay failed:", err);
+      }
     }
   }, 60000);
 };
@@ -33,28 +41,25 @@ function App() {
   useEffect(() => {
   if (!showSplash) return;
 
-  setShowEnterButton(false);
+  const video = splashVideoRef.current;
 
-  if (splashTimerRef.current) {
-    clearTimeout(splashTimerRef.current);
-  }
+  if (!video) return;
 
-  const playSplashVideo = async () => {
-    if (!splashVideoRef.current) return;
+  video.muted = true;
+  video.defaultMuted = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
 
+  const attemptPlay = async () => {
     try {
-      splashVideoRef.current.muted = true;
-      splashVideoRef.current.defaultMuted = true;
-      splashVideoRef.current.playsInline = true;
-      splashVideoRef.current.currentTime = 0;
-
-      await splashVideoRef.current.play();
-    } catch (error) {
-      console.log("Autoplay was blocked:", error);
+      await video.play();
+    } catch (err) {
+      console.log("Autoplay blocked:", err);
     }
   };
 
-  playSplashVideo();
+  attemptPlay();
 
   return () => {
     if (splashTimerRef.current) {
@@ -258,7 +263,7 @@ const handleSearch = async (e) => {
   className="splash-screen"
   style={{
   width: "100%",
-  height: "100%",
+  minHeight: "100dvh",
   display: "block",
 }}
 >
@@ -269,15 +274,8 @@ const handleSearch = async (e) => {
   autoPlay
   muted
   playsInline
+  webkit-playsinline="true"
   preload="auto"
-  onCanPlay={() => {
-    if (splashVideoRef.current) {
-      splashVideoRef.current.muted = true;
-      splashVideoRef.current.play().catch((error) => {
-        console.log("Autoplay blocked:", error);
-      });
-    }
-  }}
   onEnded={handleSplashEnded}
 />
 
