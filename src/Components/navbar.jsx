@@ -5,11 +5,10 @@ function Navbar({ setShowSplash }) {
   return (
     <nav className="nav">
       
-      <img
+            <img
         src={logo}
         alt="Music Code"
         className="nav-logo"
-        onClick={() => setShowSplash(true)}
       />
 
       <ul className="nav__links">

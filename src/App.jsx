@@ -20,20 +20,12 @@ function App() {
   const handleSplashEnded = () => {
   setShowEnterButton(true);
 
-  splashTimerRef.current = setTimeout(async () => {
+  splashTimerRef.current = setTimeout(() => {
     setShowEnterButton(false);
 
-    const video = splashVideoRef.current;
-
-    if (video) {
-      try {
-        video.pause();
-        video.currentTime = 0;
-
-        await video.play();
-      } catch (err) {
-        console.log("Replay failed:", err);
-      }
+    if (splashVideoRef.current) {
+      splashVideoRef.current.currentTime = 0;
+      splashVideoRef.current.play();
     }
   }, 60000);
 };
@@ -41,12 +33,23 @@ function App() {
   useEffect(() => {
   if (!showSplash) return;
 
+  // Hide button immediately whenever splash reopens
+  setShowEnterButton(false);
+
+  // Clear old timer
+  if (splashTimerRef.current) {
+    clearTimeout(splashTimerRef.current);
+  }
+
   const video = splashVideoRef.current;
 
   if (!video) return;
 
+  video.currentTime = 0;
+
   video.muted = true;
   video.defaultMuted = true;
+
   video.setAttribute("muted", "");
   video.setAttribute("playsinline", "");
   video.setAttribute("webkit-playsinline", "");
@@ -274,7 +277,6 @@ const handleSearch = async (e) => {
   autoPlay
   muted
   playsInline
-  webkit-playsinline="true"
   preload="auto"
   onEnded={handleSplashEnded}
 />
